@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Meow-ssage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1686653371299-5cc046596255?q=80&w=676&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            color: #d16d7b; /* Darker pink text to match the theme */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            margin: 20px 0;
+            color: #ff6f61;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+            margin-top: 40px;
+        }
+        .cat-box {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(244, 194, 194, 0.7); /* Lighter, more transparent pink */
+            border: 2px solid #ff99b3;
+            border-radius: 10px;
+            cursor: pointer;
+            opacity: 1; /* Fully visible */
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            background-size: cover; /* Ensure images fit the box */
+        }
+
+        .cat-box:hover {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        /* Pop-up box styles */
+        .popup {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f4c2c2;
+            border: 2px solid #ff99b3;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 300px;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .popup.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Background overlay for closing the popup when clicked */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .overlay.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Secret Meow-ssage</h1>
+    <h2>Pick a Cat!</h2>
+
+    <div class="grid">
+        <div class="cat-box" style="background-image: url('https://plus.unsplash.com/premium_photo-1675848495392-6b9a3b962df0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="Hey! Just wanted to send a little sunshine your way. Whatever you're working on, remember how amazing you are and that you've totally got this!"></div>
+        <div class="cat-box" style="background-image: url('https://images.unsplash.com/photo-1611267254323-4db7b39c732c?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="Thinking of you and sending some extra good vibes for your day. Keep shining!"></div>
+        <div class="cat-box" style="background-image: url('https://images.unsplash.com/photo-1606740271454-aa06533db791?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="Hope you have a day filled with little victories and big smiles. Remember to believe in yourself as much as I believe in you! You're capable of incredible things."></div>
+        <div class="cat-box" style="background-image: url('https://images.unsplash.com/photo-1594785461703-dcbb4a45dbb6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="Just a little reminder that you're strong, you're capable, and you're doing great. Keep pushing forward – I'm cheering you on every step of the way!"></div>
+        <div class="cat-box" id="center-box" style="background-image: url('https://plus.unsplash.com/premium_photo-1707353401335-cdf2ad4abc4e?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+        <div class="cat-box" style="background-image: url('https://plus.unsplash.com/premium_photo-1707353402256-8a08d3245fe1?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="'I think my phone is broken. It doesn't have your number saved as 'My Future Significant Other' yet.'"></div>
+        <div class="cat-box" style="background-image: url('https://images.unsplash.com/photo-1445499348736-29b6cdfc03b9?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="'Are you a parking ticket? Because you've got 'fine' written all over you... and I kinda want to keep you.'"></div>
+        <div class="cat-box" style="background-image: url('https://plus.unsplash.com/premium_photo-1673967770669-91b5c2f2d0ce?q=80&w=730&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="'Listen, you're basically a majestic unicorn disguised as a regular human. Go out there and sprinkle some of that magical awesome-ness everywhere!'"></div>
+        <div class="cat-box" style="background-image: url('https://plus.unsplash.com/premium_photo-1664371674970-b72c6edd9dab?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');" data-message="'I'm not saying I'm obsessed with you... but if you ever needed a personal hype person who also occasionally stares at your pictures, I know a guy.'"></div>
+    </div>
+
+    <!-- Pop-up box -->
+    <div class="popup" id="popup-box">
+        <p id="popup-message">Here's your secret message!</p>
+    </div>
+
+    <!-- Overlay background for closing the popup -->
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        const catBoxes = document.querySelectorAll('.cat-box');
+        const popupBox = document.getElementById('popup-box');
+        const overlay = document.getElementById('overlay');
+        const centerBox = document.getElementById('center-box');
+        const popupMessage = document.getElementById('popup-message');
+
+        // Loop through all the boxes except the center box
+        catBoxes.forEach((box) => {
+            if (box !== centerBox) { // Exclude center box
+                box.addEventListener('click', () => {
+                    const message = box.getAttribute('data-message');
+                    popupMessage.textContent = message;  // Set the message in pop-up
+                    popupBox.classList.add('show');  // Show the pop-up box
+                    overlay.classList.add('show');  // Show the overlay
+                });
+            }
+        });
+
+        // If the center box is clicked, navigate to the second page
+        centerBox.addEventListener('click', () => {
+            window.location.href = "page2.html";  // Navigate to page2.html
+        });
+
+        // Close the pop-up when user clicks anywhere on the screen (overlay)
+        overlay.addEventListener('click', () => {
+            popupBox.classList.remove('show');  // Hide the pop-up box
+            overlay.classList.remove('show');  // Hide the overlay
+        });
+    </script>
+
+</body>
+</html>

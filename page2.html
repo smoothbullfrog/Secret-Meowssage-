@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graduation Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            color: #d16d7b;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .buttons {
+            margin-top: 30px;
+        }
+        button {
+            background-color: #ff99b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            margin: 0 15px;
+        }
+        button:hover {
+            background-color: #d16d7b;
+        }
+        #response {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Graduation's coming up!</h1>
+    <h2>Maybe we could grab a picture together?</h2>
+
+    <div class="container">
+        <div class="buttons">
+            <button id="yes-btn">Yes</button>
+            <button id="no-btn">No</button>
+        </div>
+
+        <div id="response"></div>
+    </div>
+
+    <!-- Canvas-confetti library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const responseText = document.getElementById('response');
+
+        let noCount = 0;
+
+        // Handle Yes button click
+        yesBtn.addEventListener('click', () => {
+            responseText.textContent = "Yay, I can't wait!";
+            triggerConfetti();  // Trigger confetti effect
+        });
+
+        // Handle No button click
+        noBtn.addEventListener('click', () => {
+            noCount++;
+            if (noCount >= 3) {
+                responseText.textContent = "So no? Not even a little bit? Okay, you wound me! Just kidding (maybe a little bit serious).";
+            } else {
+                responseText.textContent = "Thank you, you agreed!";
+            }
+        });
+
+        // Function to trigger confetti
+        function triggerConfetti() {
+            // Trigger the confetti effect
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    </script>
+
+    <!-- Confetti container for rendering the effect -->
+    <div id="confetti-container" class="confetti-container"></div>
+
+</body>
+</html>
